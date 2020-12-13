@@ -1,6 +1,10 @@
 #!/bin/sh
 
 restic=$HOME/bin/restic
+if [[ ! -e $restic ]]
+then
+restic=/usr/local/bin/restic
+fi
 
 # flags="-aH -E --rsync-path=$rsync"
 # This should resemble what we use with mlbackup as closely as possible.
@@ -26,12 +30,11 @@ backup () {
     echo init restic repo
     RESTIC_PASSWORD="test" "$restic" init --repo "$restictempdir"
     echo make restic backup of Src
-    RESTIC_PASSWORD="test" "$restic" --repo "$restictempdir" backup /Volumes/Src
+    cd $1
+    RESTIC_PASSWORD="test" "$restic" --repo "$restictempdir" backup .
     echo restore data from restic backup to Dst
-    RESTIC_PASSWORD="test" "$restic" --repo "$restictempdir" restore latest --target /Volumes/Dst/85-restic
+    RESTIC_PASSWORD="test" "$restic" --repo "$restictempdir" restore latest --target $2
     returnvalue=$?
-    echo Move files where BackupBouncer expects them for checks
-    mv /Volumes/Dst/85-restic/Src/* /Volumes/Dst/85-restic/
     echo clean up temp directory
     unset RESTIC_PASSWORD
     return $returnvalue
