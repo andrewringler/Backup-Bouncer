@@ -12,6 +12,7 @@ max_priority () {
 
 create () {
     cd $1
+    set -e
     touch 'locked-file'
     SetFile -a L locked-file
 }
