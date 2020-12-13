@@ -7,7 +7,6 @@ flags="-aH -E --rsync-path=$rsync"
 # Should exit with code 0 if the necessary programs exist, 1 otherwise
 can-copy () {
     test -e $rsync
-    false  # hangs on fifo
 }
 
 # Should generate some text on stdout identifying which version of the
