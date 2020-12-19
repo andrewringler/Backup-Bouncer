@@ -1,2 +1,4 @@
 util/hardlink-util
 util/xattr-util
+Dst.sparseimage
+Src.sparseimage
